@@ -61,7 +61,6 @@ export default {
                   ...res.data[key]
                 }
               })
-              console.log(this.allMessages)
             })
 
       } catch (e) {
@@ -78,7 +77,6 @@ export default {
             })
             .then((res) => {
               this.message = ''
-              // this.getAllMessages();
             })
       } catch (e) {
         console.log(e)
