@@ -3,7 +3,7 @@
   <div class="wrapper">
     <div class="chat">
       <div class="chat-messages">
-        <div class="messages">
+        <div class="messages" ref="autoScroll">
           <div v-for="message in allMessages" :key="message.id" class="message">
             <p>{{ message.text }}</p>
             <div><span>{{ message.username }}</span></div>
@@ -17,7 +17,7 @@
               class="form-control"
               rows="3"
           ></textarea>
-<!--          <button type="submit" class="btn-primary">-->
+<!--          <button @click="sendMessage" class="btn-primary">-->
 <!--            SEND-->
 <!--          </button>-->
         </form>
@@ -40,14 +40,13 @@ export default {
     }
   },
 
-  created() {
-
-  },
-
   beforeMount() {
     this.username = prompt('Ismingizni kiriting')
-
     this.getAllMessages();
+  },
+
+  updated() {
+    this.$refs['autoScroll'].scrollTop = 9999999999;
   },
 
   methods: {
@@ -79,7 +78,7 @@ export default {
             })
             .then((res) => {
               this.message = ''
-              this.getAllMessages();
+              // this.getAllMessages();
             })
       } catch (e) {
         console.log(e)
@@ -102,6 +101,10 @@ body {
   background-color: #f2f2f5;
 }
 
+.my-message {
+  background-color: #C8CEDE !important;
+}
+
 .wrapper {
   max-width: 40%;
   min-width: 720px;
@@ -113,19 +116,20 @@ body {
   border-radius: 20px;
   padding: 20px;
   height: 600px;
-  overflow: auto;
 }
 
 .chat-messages {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
   flex: 1;
   padding: 30px;
 }
 
 .messages {
   flex: 1;
+  overflow: auto;
 }
 
 .message {
@@ -162,6 +166,7 @@ body {
   height: 80px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
+  margin-bottom: 30px;
 }
 
 .btn-primary {
