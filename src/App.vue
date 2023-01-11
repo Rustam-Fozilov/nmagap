@@ -4,8 +4,8 @@
     <div class="chat">
       <div class="chat-messages">
         <div class="messages" ref="autoScroll">
-          <div v-for="message in allMessages" :key="message.id" class="message">
-            <p>{{ message.text }}</p>
+          <div v-for="message in allMessages" :key="message.id" class="message" :class="this.username === message.username ? 'right' : ''">
+            <p :class="this.username === message.username ? 'my-message' : ''">{{ message.text }}</p>
             <div><span>{{ message.username }}</span></div>
           </div>
         </div>
@@ -13,13 +13,10 @@
           <textarea
               @keyup.enter="sendMessage"
               v-model="message"
-              placeholder="Type message..."
+              placeholder="Type message and click Enter to send"
               class="form-control"
               rows="3"
           ></textarea>
-<!--          <button @click="sendMessage" class="btn-primary">-->
-<!--            SEND-->
-<!--          </button>-->
         </form>
       </div>
     </div>
@@ -36,12 +33,17 @@ export default {
     return {
       allMessages: [],
       message: '',
-      username: '',
+      username: localStorage.getItem('username'),
     }
   },
 
   beforeMount() {
-    this.username = prompt('Ismingizni kiriting')
+    if(!localStorage.getItem('username')) {
+      this.username = prompt('Ismingizni kiriting')
+
+      localStorage.setItem('username', this.username);
+    }
+
     this.getAllMessages();
   },
 
@@ -103,17 +105,24 @@ body {
   background-color: #C8CEDE !important;
 }
 
+.right {
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+  place-items: flex-end;
+}
+
 .wrapper {
-  max-width: 40%;
-  min-width: 720px;
+  width: 700px;
   margin: 70px auto;
 }
 
 .chat {
   background-color: white;
   border-radius: 20px;
-  padding: 20px;
   height: 600px;
+  padding: 30px;
+  width: 100%;
 }
 
 .chat-messages {
@@ -121,8 +130,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  width: 100%;
   flex: 1;
-  padding: 30px;
 }
 
 .messages {
@@ -150,11 +159,12 @@ body {
 .chat-messages form {
   margin-top: 20px;
   padding-top: 20px;
+  width: 100%;
   border-top: 1px solid rgb(200, 200, 200);
 }
 
 .chat-messages form textarea {
-  width: 100%;
+  width: 680px;
   resize: none;
   outline: none;
   border: none;
@@ -164,7 +174,6 @@ body {
   height: 80px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
-  margin-bottom: 30px;
 }
 
 .btn-primary {
@@ -176,5 +185,35 @@ body {
   background: #151515;
   color: white;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 900px){
+  .wrapper {
+    width: 100%;
+    margin: 40px auto;
+  }
+
+  .chat {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .chat-messages form textarea {
+    width: 97%;
+  }
+}
+
+@media only screen and (max-width: 500px){
+  .chat-messages form textarea {
+    width: 96%;
+  }
+
+  .wrapper {
+    margin: 20px auto;
+  }
+
+  .chat {
+    height: 450px;
+  }
 }
 </style>
