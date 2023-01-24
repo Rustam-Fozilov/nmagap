@@ -1,5 +1,7 @@
 <template>
   <div class="home-container">
+    <div v-if="loading" class="loader"></div>
+
     <div class="tweets-block">
       <the-tweet
           @load-tweet="loadTweets"
@@ -14,6 +16,7 @@
     <div v-if="postModal" @click="postModal = false" class="modal-container"></div>
       <div v-if="postModal" class="post-modal">
         <div class="post-title">Post new tweet</div>
+        <p v-if="errorText.length !== 0" class="error">{{ errorText }}</p>
         <div class="post-text">
           <textarea v-model="tweetText" rows="5" placeholder="Type here..."></textarea>
         </div>
@@ -37,7 +40,9 @@ export default {
     return {
       allTweets: [],
       postModal: false,
-      tweetText: ''
+      tweetText: '',
+      loading: false,
+      errorText: ''
     }
   },
 
@@ -47,10 +52,12 @@ export default {
 
   methods: {
     loadTweets() {
+      this.loading = true;
       try {
         axios
             .get('https://vue-mini-twitter-default-rtdb.firebaseio.com/tweets.json')
             .then((res) => {
+              this.loading = false;
               this.allTweets = Object.keys(res.data).map(key => {
                 return {
                   id: key,
@@ -60,6 +67,7 @@ export default {
             })
 
       } catch (e) {
+        this.loading = false;
         console.log(e);
       }
     },
@@ -71,6 +79,10 @@ export default {
       const emojis = ["emoji-01.png", "emoji-02.png", "emoji-03.png", "emoji-04.png", "emoji-05.png", "emoji-06.png", "emoji-07.png", "emoji-08.png", "emoji-09.png", "emoji-10.png"]
       const randomImg = Math.floor(Math.random() * emojis.length);
       const randomColor = Math.floor(Math.random() * background.length);
+
+      if(this.tweetText === '') {
+        return this.errorText = 'Please enter tweet'
+      }
 
       try {
         axios
@@ -86,7 +98,8 @@ export default {
             })
             .then((res) => {
               this.postModal = false;
-              this.tweetText = ''
+              this.tweetText = '';
+              this.errorText = ''
               this.loadTweets()
             })
       } catch (e) {
@@ -98,6 +111,35 @@ export default {
 </script>
 
 <style scoped>
+.error {
+  font-family: Montserrat-Regular;
+  font-size: 1rem;
+  color: red;
+  text-align: center;
+}
+
+.loader {
+  margin: 0 auto;
+  transform: translate(-50%, -50%);
+  border: 10px solid #dadada;
+  border-radius: 50%;
+  border-top: 10px solid #2f2f2f;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .home-container {
   margin-top: 30px;
 }
