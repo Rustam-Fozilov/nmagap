@@ -1,19 +1,15 @@
 <template>
   <div class="home-container">
-    <the-tweet
-        @load-tweet="loadTweets"
-        v-for="tweet in allTweets" :key="tweet.id"
-        :tweet="tweet"
-        :comments="tweet.comments"
-    ></the-tweet>
+    <div class="tweets-block">
+      <the-tweet
+          @load-tweet="loadTweets"
+          v-for="tweet in allTweets" :key="tweet.id"
+          :tweet="tweet"
+          :comments="tweet.comments"
+      ></the-tweet>
+    </div>
 
     <button @click="postModal = true" class="btn-make-tweet">MAKE TWEET</button>
-
-    <div class="nav-link">
-      <router-link to="/">HOME</router-link>
-      <router-link to="/about">ABOUT</router-link>
-      <p>Developer: Rustam Fozilov</p>
-    </div>
 
     <div v-if="postModal" @click="postModal = false" class="modal-container"></div>
       <div v-if="postModal" class="post-modal">
@@ -83,7 +79,7 @@ export default {
                 image: emojis[randomImg],
                 color: background[randomColor]
               },
-              date: currentDate.toLocaleDateString(),
+              date: currentDate.toLocaleDateString() + ', ' + currentDate.getHours() + ':' + currentDate.getMinutes(),
               likes: 0,
               text: this.tweetText,
               comments: []
@@ -121,12 +117,8 @@ export default {
   cursor: pointer;
 }
 
-.nav-link {
-  position: relative;
-  flex: auto 0;
-  bottom: 0;
-  text-align: center;
-  margin-top: 120px;
+.tweets-block {
+  margin-bottom: 200px;
 }
 
 .nav-link a {

@@ -89,19 +89,20 @@ export default {
     },
 
     sendComment() {
+      const date = new Date();
       const emojis = ["emoji-01.png", "emoji-02.png", "emoji-03.png", "emoji-04.png", "emoji-05.png", "emoji-06.png"]
       const randomImg = Math.floor(Math.random() * emojis.length);
 
       if(this.tweet.comments) {
         this.tweet.comments.push({
-          date: new Date().toLocaleDateString(),
+          date: date.toLocaleDateString() + ', ' + date.getHours() + ':' + date.getMinutes(),
           comment: this.commentText,
           avatar: emojis[randomImg]
         })
       } else {
         this.tweet.comments = [
           {
-            date: new Date().toLocaleDateString(),
+            date: date.toLocaleDateString() + ', ' + date.getHours() + ':' + date.getMinutes(),
             comment: this.commentText,
             avatar: emojis[randomImg]
           }
