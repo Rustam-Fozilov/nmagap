@@ -233,4 +233,24 @@ export default {
   box-shadow: 0 10px 20px #96D9F9;
 }
 
+@media only screen and (max-width: 820px) {
+  .btn-make-tweet {
+    width: 90%;
+  }
+
+  .post-modal {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .post-modal {
+    width: 70%;
+  }
+
+  .btn-make-tweet {
+    bottom: 50px;
+  }
+}
+
 </style>

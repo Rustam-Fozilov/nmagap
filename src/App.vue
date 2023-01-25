@@ -40,4 +40,10 @@ html, body {
 .active {
   text-decoration: underline !important;
 }
+
+@media only screen and (max-width: 800px) {
+  .container {
+    width: 90%;
+  }
+}
 </style>

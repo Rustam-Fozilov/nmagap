@@ -233,4 +233,18 @@ export default {
   margin-bottom: 10px;
 }
 
+@media only screen and (max-width: 500px) {
+  .tweet-text {
+    font-size: 16px;
+  }
+
+  .comment-field input {
+    font-size: 12px;
+  }
+
+  .comment-text {
+    font-size: 16px;
+  }
+}
+
 </style>

@@ -44,4 +44,18 @@ a {
   font-family: Montserrat-Regular;
   opacity: 0.6;
 }
+
+@media only screen and (max-width: 500px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .item {
+    font-size: 16px;
+  }
+
+  a {
+    font-size: 16px;
+  }
+}
 </style>

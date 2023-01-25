@@ -46,4 +46,27 @@ export default {
   text-decoration: none;
   color: black;
 }
+
+@media only screen and (max-width: 820px) {
+  .nav-wrapper {
+    width: auto;
+    padding: 0 30px;
+  }
+
+  .nav-title {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .nav-wrapper {
+    width: auto;
+    padding: 0 15px;
+  }
+
+  .nav-items ul li a {
+    font-size: 14px;
+  }
+}
+
 </style>
